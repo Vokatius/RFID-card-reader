@@ -25,19 +25,10 @@ void ListMenu::move_down() {
         m_cur_cursor_pos = m_menu_texts.size() - 1;
 }
 
-Menu_Options ListMenu::select() {
-    auto selected = m_menu_texts[m_cur_cursor_pos];
-
-    if(selected == m_menu_texts[0])
-        return Menu_Options::REGISTER;
-
-    if(selected == m_menu_texts[1])
-        return Menu_Options::REQUEST;
-
-    if(selected == m_menu_texts[2])
-        return Menu_Options::DELETE;
-
-    return Menu_Options::UPDATE;
+int ListMenu::select() {
+    for(int i = 0; i < m_menu_texts.size(); i++)
+        if(m_menu_texts[i] == m_menu_texts[m_cur_cursor_pos])
+            return i;
 }
 
 std::unique_ptr<const char*[]> ListMenu::get_display_items() {

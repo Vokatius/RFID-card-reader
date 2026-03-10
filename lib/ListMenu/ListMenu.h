@@ -5,13 +5,6 @@
 #include <memory>
 #include <unordered_map>
 
-enum Menu_Options {
-    REGISTER,
-    REQUEST,
-    DELETE,
-    UPDATE
-};
-
 class ListMenu
 {
     private:
@@ -24,7 +17,7 @@ class ListMenu
         int get_cursor_pos();
         void move_up();
         void move_down();
-        Menu_Options select();
+        int select();
         std::unique_ptr<const char*[]> get_display_items();    
 };
 #endif
