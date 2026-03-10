@@ -24,15 +24,25 @@ void Display_I2C::Write(int col, int row, String text) {
         
         throw 1;
     }
-
-    m_texts[row] = {col, text.c_str()};
+    
+    m_texts[row] = {col, text};
 
     m_display.clear();
 
     Display_Row data;
     for(int row_itr = 0; row_itr < m_rows; row_itr++) {
-        data = m_texts[0];
+        data = m_texts[row_itr];
         m_display.setCursor(data.start_col, row_itr);
         m_display.print(data.text);
     }
+}
+
+void Display_I2C::Overwrite(int col, int row, const char* text) {
+    m_display.setCursor(col, row);
+    m_display.print(text);
+}
+
+void Display_I2C::Init() {
+    m_display.init();
+    m_display.backlight();
 }

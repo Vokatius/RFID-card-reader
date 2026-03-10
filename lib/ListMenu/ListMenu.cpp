@@ -29,6 +29,8 @@ int ListMenu::select() {
     for(int i = 0; i < m_menu_texts.size(); i++)
         if(m_menu_texts[i] == m_menu_texts[m_cur_cursor_pos])
             return i;
+
+    throw 1;
 }
 
 std::unique_ptr<const char*[]> ListMenu::get_display_items() {
