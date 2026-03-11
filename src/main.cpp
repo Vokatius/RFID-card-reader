@@ -19,8 +19,19 @@ void setup() {
     pinMode(LED_PIN, OUTPUT);
 
     lcd.Init();
-    const std::vector<uint8_t> test = { 0x02, 0xA1, 0x02, 0xA2, 0x12, 0xA1, 0x02 };
-    String res = Base64::to_base64(test);
+    const std::vector<uint8_t> test = { 0x02, 0xA1, 0x05, 0xC0, 0xAB };
+    String res = Base64::to_base64(test, true);
+
+    auto test_reparsed = Base64::from_base64(res);
+
+    Serial.print("Return Array: ");
+    for(uint8_t i = 0; i < test_reparsed.size(); i++) {
+        Serial.print(i);
+        Serial.print(" -> ");
+        Serial.print(test_reparsed[i]);
+        Serial.print(", ");
+    }
+    Serial.println("");
 
     lcd.Write(0,0, res);
 }

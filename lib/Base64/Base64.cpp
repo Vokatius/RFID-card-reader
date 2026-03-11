@@ -8,7 +8,7 @@
 
 namespace Base64 {
     static String convert_bytes_to_base64(uint8_t bytes[3]);
-    static std::array<uint8_t, 3> convert_symbols_to_bytes(char symbols[4]);
+    static std::vector<uint8_t>  convert_symbols_to_bytes(char symbols[4]);
 
     String to_base64(vector<uint8_t> bytes, bool add_padding) {
         // Serial.println("Starting calc");
@@ -74,22 +74,35 @@ namespace Base64 {
         return result;
     };
 
-    // vector<uint8_t> from_base64(String value) {
-    //     vector<uint8_t> result = {};
+    vector<uint8_t> from_base64(String value) {
+        Serial.println("Starting calc");
+        vector<uint8_t> result = {};
 
-    //     for(char c : value) {
-    //         if(c > 10) {
+        char symbols[4] = {};
+        for(uint8_t i = 0; i < value.length(); i += 4) {
+            Serial.print("Outer loop No.");
+            Serial.println(i);
+            for(uint8_t j = 0; j < 4; j++) {
+                Serial.print("Inner loop No.");
+                Serial.println(j);
+                symbols[j] = value[i+j];
+            }
 
-    //         } else if()
-    //     }
-    // };
+            Serial.println("Getting Values");
+            auto temp_values = convert_symbols_to_bytes(symbols);
+            Serial.println("Inserting Values");
+            result.insert(result.end(), temp_values.begin(), temp_values.end());
+        }
+
+        return result;
+    };
 
     static String convert_bytes_to_base64(uint8_t bytes[3]) {
         // Serial.println("Starting temp calc");
         String result = "";
         uint32_t group = bytes[0] << 16 | bytes[1] << 8 | bytes[2];
-        // Serial.print("uint32_t: ");
-        // Serial.println(group);
+        Serial.print("uint32_t to base64: ");
+        Serial.println(group);
 
         // Serial.println("Starting loop");
         uint8_t temp_val;
@@ -135,13 +148,40 @@ namespace Base64 {
         return result;
     };
 
-    static std::array<uint8_t, 3> convert_symbols_to_bytes(char symbols[4]) {
-        uint32_t temp_val = 0;
-        for(uint8_t i = 0; i < 4; i++) {
+    static std::vector<uint8_t> convert_symbols_to_bytes(char symbols[4]) {
+        uint8_t padding_cnt = 0;
+        uint32_t temp_val = 0;       
 
+        for(uint8_t i = 0; i < 4; i++) {
+            if(symbols[3-i] == 61) { // =
+                padding_cnt++;
+                continue;                
+            }                 
+            
+            if(symbols[3-i] == 43) { // +
+                temp_val += 62 << i * 6;
+            } else if(symbols[3-i] == 47) { // /
+                temp_val += 63 << i * 6;
+            } else if(symbols[3-i] <=  57) { // numbers
+                temp_val += (symbols[3-i] + 4) << i * 6;
+            } else if(symbols[3-i] <= 90) { // capital letters
+                temp_val += (symbols[3-i] - 65) << i * 6;
+            } else { // lowercase letters
+                temp_val += (symbols[3-i] - 71) << i * 6;
+            }
         }
 
-        std::array<uint8_t, 3> result = {};
+        // Serial.print("uint32_t from base64: ");
+        // Serial.println(temp_val);
+
+        std::vector<uint8_t> result = { };
+        for(int offset = 2; offset >= 0; offset--) {
+            result.push_back((temp_val & ~(BIT_MASK - (255 << offset * 8))) >> offset * 8);
+        }
+
+        if(padding_cnt > 0)
+            result.resize(result.size() - padding_cnt);
+
         return result;
     }
 }
