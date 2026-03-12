@@ -75,6 +75,10 @@ namespace Base64 {
     };
 
     vector<uint8_t> from_base64(String value) {
+        while(value.length() % 4 > 0) {
+            value.concat("=");
+        }
+
         Serial.println("Starting calc");
         vector<uint8_t> result = {};
 
