@@ -2,11 +2,10 @@
 #include "SPI.h"
 #include <LiquidCrystal_I2C.h>
 #include <vector>
-#include "logic/menu/ListMenu.h"
 #include "hardware/input/Push_Button_Input.h"
 #include "utils/Base64.h"
 #include "hardware/display/Display_I2C.h"
-#include "hardware/rfid/Rfid_SPI_Authentication.h"
+#include "hardware/rfid/Rfid_SPI_Reader.h"
 
 #define LED_PIN 2
 #define BTN_LEFT_PIN 17
@@ -15,7 +14,7 @@
 #define LCD_ROWS 2
 
 Display_I2C lcd(16, LCD_ROWS, 0x27);
-Rfid_SPI_Authentication rfid;
+Rfid_SPI_Reader rfid;
 
 void setup() {
     Serial.begin(9600);
