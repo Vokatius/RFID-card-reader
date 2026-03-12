@@ -1,7 +1,7 @@
-#include "Rfid_SPI_Authentication.h"
+#include "hardware/rfid/Rfid_SPI_Authentication.h"
 
-Rfid_SPI_Authentication::Rfid_SPI_Authentication(uint8_t rst_pin, uint8_t ss_pin)
-: m_rfid(ss_pin, rst_pin) { }
+Rfid_SPI_Authentication::Rfid_SPI_Authentication(uint8_t rstPin, uint8_t ssPin)
+: m_rfid(ssPin, rstPin) { }
 
 void Rfid_SPI_Authentication::init() {
     m_rfid.PCD_Init();
@@ -32,11 +32,11 @@ std::vector<uint8_t> Rfid_SPI_Authentication::block_until_auth() {
     return result;
 }
 
-bool Rfid_SPI_Authentication::block_until_is_verified(std::vector<uint8_t> expected_uid) {
+bool Rfid_SPI_Authentication::block_until_verified(std::vector<uint8_t> expectedUid) {
     std::vector<uint8_t> result = {};
     
     while (result.size() == 0)
         result = get_auth();
 
-    return result == expected_uid;
+    return result == expectedUid;
 }

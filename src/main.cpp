@@ -2,11 +2,11 @@
 #include "SPI.h"
 #include <LiquidCrystal_I2C.h>
 #include <vector>
-#include "ListMenu.h"
-#include "Push_Button_Input.h"
-#include "Base64.h"
-#include "Display_I2C.h"
-#include "Rfid_SPI_Authentication.h"
+#include "logic/menu/ListMenu.h"
+#include "hardware/input/Push_Button_Input.h"
+#include "utils/Base64.h"
+#include "hardware/display/Display_I2C.h"
+#include "hardware/rfid/Rfid_SPI_Authentication.h"
 
 #define LED_PIN 2
 #define BTN_LEFT_PIN 17
@@ -14,7 +14,7 @@
 #define BTN_RIGHT_PIN 4
 #define LCD_ROWS 2
 
-Display_I2C lcd(16,LCD_ROWS,0x27);
+Display_I2C lcd(16, LCD_ROWS, 0x27);
 Rfid_SPI_Authentication rfid;
 
 void setup() {
@@ -22,23 +22,23 @@ void setup() {
     pinMode(LED_PIN, OUTPUT);
 
     SPI.begin();
-    lcd.Init();
+    lcd.init();
     rfid.init();
     // const std::vector<uint8_t> test = { 0x02, 0xA1, 0x05, 0xC0, 0xAB };
-    // String res = Base64::to_base64(test, true);
+    // String res = Base64::toBase64(test, true);
 
-    // auto test_reparsed = Base64::from_base64(res);
+    // auto testReparsed = Base64::fromBase64(res);
 
     // Serial.print("Return Array: ");
-    // for(uint8_t i = 0; i < test_reparsed.size(); i++) {
+    // for(uint8_t i = 0; i < testReparsed.size(); i++) {
     //     Serial.print(i);
     //     Serial.print(" -> ");
-    //     Serial.print(test_reparsed[i]);
+    //     Serial.print(testReparsed[i]);
     //     Serial.print(", ");
     // }
     // Serial.println("");
 
-    // lcd.Write(0,0, res);
+    // lcd.write(0, 0, res);
 }
 
 void loop() { 

@@ -8,16 +8,16 @@
 class ListMenu
 {
     private:
-        std::vector<const char*> m_menu_texts{};
-        int m_cur_cursor_pos{};
-        int m_display_rows{};
+        std::vector<const char*> m_menuTexts{};
+        int m_cursorPos{};
+        int m_displayRows{};
     
     public:
-        ListMenu(int display_rows, std::vector<const char*> texts);
+        ListMenu(int displayRows, std::vector<const char*> texts);
         int get_cursor_pos();
         void move_up();
         void move_down();
         int select();
-        std::unique_ptr<const char*[]> get_display_items();    
+        std::unique_ptr<const char*[]> get_display_items();
 };
 #endif

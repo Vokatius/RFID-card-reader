@@ -1,8 +1,8 @@
-#include "Push_Button_Input.h"
+#include "hardware/input/Push_Button_Input.h"
 #include <Arduino.h>
 
-Push_Button_Input::Push_Button_Input(uint8_t up_btn, uint8_t middle_btn, uint8_t down_btn) 
-: m_buttons({ up_btn, middle_btn, down_btn}) { };
+Push_Button_Input::Push_Button_Input(uint8_t upBtn, uint8_t middleBtn, uint8_t downBtn)
+: m_buttons({ upBtn, middleBtn, downBtn}) { };
 
 void Push_Button_Input::init() {
     for(int btn : m_buttons)
