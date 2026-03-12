@@ -11,6 +11,19 @@ class Display {
         virtual void Init();
 };
 
+enum Buttons {
+    UP,
+    CENTER,
+    DOWN,
+    NONE
+};
+
+class Input {
+    public:
+        virtual Buttons block_until_button_press();
+        virtual Buttons get_button();
+};
+
 struct User {
     const String name;
 
