@@ -1,5 +1,5 @@
-#ifndef NVS_USER_STORAGE;
-#define NVS_USER_STORAGE;
+#ifndef NVS_USER_STORAGE
+#define NVS_USER_STORAGE
 
 #include <vector>
 #include <Arduino.h>
@@ -13,6 +13,8 @@ using namespace std;
 
 class NVS_User_Storage : UserPersistance {
     private:
+        const uint8_t m_max_name_length;
+        bool m_is_init = false;
         nvs_handle_t get_handle();
     public:
         void init();
@@ -20,6 +22,8 @@ class NVS_User_Storage : UserPersistance {
         User read_user(vector<uint8_t> uid);
         void update_user(vector<uint8_t> uid, User user);
         void delete_user(vector<uint8_t> uid);
+        NVS_User_Storage(uint8_t max_name_length);
+        ~NVS_User_Storage();
 };
 
 #endif
