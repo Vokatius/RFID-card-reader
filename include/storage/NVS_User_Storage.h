@@ -9,7 +9,7 @@
 //More details here:
 //https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/storage/nvs_flash.html#api-reference
 
-class NVS_User_Storage : public IUserPersistence {
+class NVS_User_Storage : public IUser_Persistence {
     private:
         const uint8_t m_maxNameLength;
         bool m_isInit = false;

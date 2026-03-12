@@ -1,13 +1,13 @@
-#include "hardware/rfid/Rfid_SPI_Authentication.h"
+#include "hardware/rfid/Rfid_SPI_Reader.h"
 
-Rfid_SPI_Authentication::Rfid_SPI_Authentication(uint8_t rstPin, uint8_t ssPin)
+Rfid_SPI_Reader::Rfid_SPI_Reader(uint8_t rstPin, uint8_t ssPin)
 : m_rfid(ssPin, rstPin) { }
 
-void Rfid_SPI_Authentication::init() {
+void Rfid_SPI_Reader::init() {
     m_rfid.PCD_Init();
 };
 
-std::vector<uint8_t> Rfid_SPI_Authentication::get_auth() {
+std::vector<uint8_t> Rfid_SPI_Reader::get_auth() {
     if(!m_rfid.PICC_IsNewCardPresent()) // return if same card has been scanned
         return {};
 
@@ -23,7 +23,7 @@ std::vector<uint8_t> Rfid_SPI_Authentication::get_auth() {
     return result;
 };
 
-std::vector<uint8_t> Rfid_SPI_Authentication::block_until_auth() {
+std::vector<uint8_t> Rfid_SPI_Reader::block_until_auth() {
     std::vector<uint8_t> result = {};
 
     while (result.size() == 0)
@@ -32,7 +32,7 @@ std::vector<uint8_t> Rfid_SPI_Authentication::block_until_auth() {
     return result;
 }
 
-bool Rfid_SPI_Authentication::block_until_verified(std::vector<uint8_t> expectedUid) {
+bool Rfid_SPI_Reader::block_until_verified(std::vector<uint8_t> expectedUid) {
     std::vector<uint8_t> result = {};
     
     while (result.size() == 0)

@@ -71,7 +71,7 @@ User NVS_User_Storage::read_user(vector<uint8_t> uid) {
 
     nvs_close(handle);
 
-    return User{String(name.c_str()),uid}; 
+    return User{name,uid}; 
 }
 
 void NVS_User_Storage::update_user(vector<uint8_t> uid, User user) {

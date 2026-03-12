@@ -2,7 +2,6 @@
 #define DISPLAY_I2C
 
 #include <LiquidCrystal_I2C.h>
-#include "interfaces/display.h"
 
 #define LCD_ROWS 2
 #define LCD_COLS 16
@@ -13,7 +12,7 @@ struct Display_Row {
     String text;
 };
 
-class Display_I2C : public IDisplay {
+class Display_I2C {
     private:
         const int m_rows;
         const int m_cols;
