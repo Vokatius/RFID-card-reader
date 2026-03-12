@@ -40,4 +40,11 @@ class UserPersistance {
         virtual void delete_user(std::vector<uint8_t> uid);
 };
 
+class UserAuthentication {
+    public:
+        virtual std::vector<uint8_t> block_until_auth();
+        virtual bool block_until_is_verified(std::vector<uint8_t> expected_uid);
+        virtual std::vector<uint8_t> get_auth();
+};
+
 #endif
