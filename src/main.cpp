@@ -39,6 +39,7 @@ Auth_Service auth_service(storage);
 D1602_Button_IO io_service(rfid, lcd, auth_service, input, MAX_NAME_LEN);
 
 void setup() {
+    Serial.begin(9600);
     SPI.begin();
 
     lcd.init();
