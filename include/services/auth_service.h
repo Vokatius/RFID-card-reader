@@ -7,10 +7,10 @@
 
 class Auth_Service {
     private:
-        IUser_Persistence m_persistance; 
+        IUser_Persistence& m_persistance; 
 
     public:
-        Auth_Service(IUser_Persistence* persistance);
+        Auth_Service(IUser_Persistence& persistance);
         bool is_registered(std::vector<uint8_t> uid);
         User get_user(std::vector<uint8_t> uid);
         void register_user(User u);

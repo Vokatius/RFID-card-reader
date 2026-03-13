@@ -1,5 +1,4 @@
 #include "services\io_service_base.h"
 
-template <typename T_INPUT, typename T_OUTPUT>
-IO_Service_Base<T_INPUT, T_OUTPUT>::IO_Service_Base(Rfid_SPI_Reader* reader, T_INPUT* input, T_OUTPUT* output)
-: m_reader(*reader), m_input(*input), m_output(*output), m_auth({}) { };
+IO_Service_Base::IO_Service_Base(IRfid_Reader& reader, Auth_Service& auth, uint8_t max_name_len)
+: m_reader(reader), m_auth(auth), m_max_name_length(max_name_len) { };

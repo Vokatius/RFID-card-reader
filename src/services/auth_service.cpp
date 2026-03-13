@@ -1,7 +1,7 @@
 #include "services\auth_service.h"
 
-Auth_Service::Auth_Service(IUser_Persistence* persistance)
-: m_persistance(*persistance) { };
+Auth_Service::Auth_Service(IUser_Persistence& persistance)
+: m_persistance(persistance) { };
 
 bool Auth_Service::is_registered(std::vector<uint8_t> uid) {
     User u = m_persistance.read_user(uid);
