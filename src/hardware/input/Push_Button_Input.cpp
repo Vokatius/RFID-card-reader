@@ -1,6 +1,8 @@
 #include "hardware/input/Push_Button_Input.h"
 #include <Arduino.h>
 
+#define BTN_HOLD_DURATION 450
+
 Push_Button_Input::Push_Button_Input(uint8_t upBtn, uint8_t middleBtn, uint8_t downBtn)
 : m_buttons({ upBtn, middleBtn, downBtn}) { };
 
@@ -9,7 +11,7 @@ void Push_Button_Input::init() {
         pinMode(btn, INPUT_PULLUP);
 }
 
-Buttons Push_Button_Input::int_to_button(uint8_t btn) {
+Buttons Push_Button_Input::int_to_button(int8_t btn) {
     if(btn == -1)
         return Buttons::NONE;
 
@@ -17,20 +19,25 @@ Buttons Push_Button_Input::int_to_button(uint8_t btn) {
         return Buttons::UP;
 
     if(btn == m_buttons[1])
-        return Buttons::UP;
+        return Buttons::CENTER;
 
     if(btn == m_buttons[2])
-        return Buttons::UP;
+        return Buttons::DOWN;
 
     //TODO: Error handling
     throw 1;
 };
 
 Buttons Push_Button_Input::get_button() {
-    int press = -1;   
+    int press = -1;
     for(int btn : m_buttons) {
         if(digitalRead(btn) == LOW){
-            press = btn;
+            uint16_t timer = 0;
+            while(digitalRead(btn) == LOW && timer < BTN_HOLD_DURATION){ 
+                delay(50);
+                timer += 50;
+            }   
+            press = btn;    
         }
     }
 
@@ -38,14 +45,11 @@ Buttons Push_Button_Input::get_button() {
 };
 
 Buttons Push_Button_Input::block_until_button_press() {
-    int press = -1;
-    while (press == -1) {
-        for(int btn : m_buttons) {
-            if(digitalRead(btn) == LOW){
-                press = btn;
-            }
-        }
+    Buttons pressed_btn;
+    do {
+        pressed_btn = get_button();
     }
+    while (pressed_btn == NONE);
 
-    return int_to_button(press);
+    return pressed_btn;
 };
