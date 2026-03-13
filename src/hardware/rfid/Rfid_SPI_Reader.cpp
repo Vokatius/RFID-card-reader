@@ -7,36 +7,22 @@ void Rfid_SPI_Reader::init() {
     m_rfid.PCD_Init();
 };
 
-std::vector<uint8_t> Rfid_SPI_Reader::get_auth() {
+bool Rfid_SPI_Reader::try_get_auth(std::vector<uint8_t>* out_result) {
+    if(out_result == nullptr)
+        return false;
+
     if(!m_rfid.PICC_IsNewCardPresent()) // return if same card has been scanned
-        return {};
+        return false;
 
     if(!m_rfid.PICC_ReadCardSerial())  // return if card couldnt be read
-        return {};
+        return false;
 
-    std::vector<uint8_t> result = {};
+    out_result->resize(0);
     for(int i = 0; i < m_rfid.uid.size; i++) 
-        result.push_back(m_rfid.uid.uidByte[i]);
+        out_result->push_back(m_rfid.uid.uidByte[i]);
 
     m_rfid.PICC_HaltA();
     m_rfid.PCD_StopCrypto1();
-    return result;
+
+    return true;
 };
-
-std::vector<uint8_t> Rfid_SPI_Reader::block_until_auth() {
-    std::vector<uint8_t> result = {};
-
-    while (result.size() == 0)
-        result = get_auth();
-
-    return result;
-}
-
-bool Rfid_SPI_Reader::block_until_verified(std::vector<uint8_t> expectedUid) {
-    std::vector<uint8_t> result = {};
-    
-    while (result.size() == 0)
-        result = get_auth();
-
-    return result == expectedUid;
-}
