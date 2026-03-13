@@ -9,8 +9,8 @@ using namespace std;
 
 #define NVS_NAMESPACE "USR_SPACE"
 
-NVS_User_Storage::NVS_User_Storage(uint8_t maxNameLength)
-: m_maxNameLength(maxNameLength) {};
+NVS_User_Storage::NVS_User_Storage(uint8_t max_name_length)
+: m_max_name_length(max_name_length) {};
 
 void NVS_User_Storage::init() {
     auto err = nvs_flash_init();
@@ -56,9 +56,9 @@ User NVS_User_Storage::read_user(vector<uint8_t> uid) {
     auto handle = get_handle();
 
     string name = {};
-    name.resize(m_maxNameLength);
+    name.resize(m_max_name_length);
 
-    auto size = size_t(m_maxNameLength);
+    auto size = size_t(m_max_name_length);
     auto err = nvs_get_str(handle, Base64::toBase64(uid).c_str(), &name[0], &size); // &name[0] -> Passes pointer to first char of name
     if(err == ESP_ERR_NOT_FOUND)
         return {};
@@ -95,6 +95,10 @@ void NVS_User_Storage::delete_user(vector<uint8_t> uid) {
 
     nvs_commit(handle);
     nvs_close(handle);
+}
+
+uint8_t NVS_User_Storage::get_max_name_len() {
+    return m_max_name_length;
 }
 
 NVS_User_Storage::~NVS_User_Storage() {

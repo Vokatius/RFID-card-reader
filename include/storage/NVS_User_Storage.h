@@ -11,7 +11,7 @@
 
 class NVS_User_Storage : public IUser_Persistence {
     private:
-        const uint8_t m_maxNameLength;
+        const uint8_t m_max_name_length;
         bool m_isInit = false;
         nvs_handle_t get_handle();
     public:
@@ -20,7 +20,8 @@ class NVS_User_Storage : public IUser_Persistence {
         User read_user(std::vector<uint8_t> uid);
         void update_user(std::vector<uint8_t> uid, User user);
         void delete_user(std::vector<uint8_t> uid);
-        NVS_User_Storage(uint8_t maxNameLength);
+        uint8_t get_max_name_len();
+        NVS_User_Storage(uint8_t max_name_length);
         ~NVS_User_Storage();
 };
 
