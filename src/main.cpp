@@ -1,50 +1,52 @@
 #include <Arduino.h>
+
 #include "SPI.h"
-#include <LiquidCrystal_I2C.h>
-#include <vector>
-#include "hardware/input/Push_Button_Input.h"
-#include "utils/Base64.h"
+
+#include "services/auth_service.h"
+#include "services/io_service_base.h"
+
+#include "storage/NVS_User_Storage.h"
+
+#include "interfaces/rfid_reader.h"
+#include "interfaces/user_persistence.h"
+
 #include "hardware/display/Display_I2C.h"
 #include "hardware/rfid/Rfid_SPI_Reader.h"
+#include "hardware/input/Push_Button_Input.h"
 
-#define LED_PIN 2
-#define BTN_LEFT_PIN 17
+#include "io_implementations/1602_push_buttons/d1602_button_io.h"
+
+#define BTN_UP_PIN 17
 #define BTN_MIDDLE_PIN 16
-#define BTN_RIGHT_PIN 4
-#define LCD_ROWS 2
+#define BTN_DOWN_PIN 4
 
-Display_I2C lcd(16, LCD_ROWS, 0x27);
-Rfid_SPI_Reader rfid;
+#define LCD_ROWS 2
+#define LCD_COLS 16
+#define LCD_I2C_Addr 0x27
+
+#define RFID_SPI_RST_PIN 0
+#define RFID_SPI_SS_PIN 5
+
+#define MAX_NAME_LEN 10
+
+Display_I2C lcd(LCD_COLS, LCD_ROWS, LCD_I2C_Addr);
+Push_Button_Input input(BTN_UP_PIN, BTN_MIDDLE_PIN, BTN_DOWN_PIN);
+
+NVS_User_Storage storage(MAX_NAME_LEN);
+Rfid_SPI_Reader rfid(RFID_SPI_RST_PIN, RFID_SPI_SS_PIN);
+
+Auth_Service auth_service(storage);
+D1602_Button_IO io_service(rfid, lcd, auth_service, input, MAX_NAME_LEN);
 
 void setup() {
-    Serial.begin(9600);
-    pinMode(LED_PIN, OUTPUT);
-
     SPI.begin();
+
     lcd.init();
+    storage.init();
+    input.init();
     rfid.init();
-    // const std::vector<uint8_t> test = { 0x02, 0xA1, 0x05, 0xC0, 0xAB };
-    // String res = Base64::toBase64(test, true);
 
-    // auto testReparsed = Base64::fromBase64(res);
-
-    // Serial.print("Return Array: ");
-    // for(uint8_t i = 0; i < testReparsed.size(); i++) {
-    //     Serial.print(i);
-    //     Serial.print(" -> ");
-    //     Serial.print(testReparsed[i]);
-    //     Serial.print(", ");
-    // }
-    // Serial.println("");
-
-    // lcd.write(0, 0, res);
+    io_service.init();
 }
 
-void loop() { 
-    auto res = rfid.block_until_auth();
-        
-    for(auto num : res) {
-        Serial.print(num < 0x10 ? " 0" : " ");
-        Serial.print(num, HEX);
-    }
-}
+void loop() { }
