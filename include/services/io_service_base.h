@@ -5,7 +5,7 @@
 #include "interfaces/rfid_reader.h"
 
 class IO_Service_Base {
-    private:
+    protected:
         const uint8_t m_max_name_length;
         Auth_Service& m_auth;
         IRfid_Reader& m_reader;
