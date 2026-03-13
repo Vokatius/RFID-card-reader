@@ -13,7 +13,7 @@ class IO_Service_Base {
         T_OUTPUT m_output;
     public:
         IO_Service_Base(Rfid_SPI_Reader* reader, T_INPUT* input, T_OUTPUT* output);
-        virtual void init();
+        virtual void init() = 0;
 };
 
 #endif
