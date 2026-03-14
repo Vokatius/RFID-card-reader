@@ -13,8 +13,10 @@ class D1602_Button_IO : public IO_Service_Base {
         void show_main_menu();
         void find_user_menu();
         void register_user_menu();
-        void change_user_menu();
         void delete_user_menu();
+        void change_user_submenu();
+        void change_user_name_menu();
+        void change_user_chip_menu();
     public:
         D1602_Button_IO(IRfid_Reader& reader, Display_I2C& display, Auth_Service& auth, Push_Button_Input& buttons, uint8_t max_name_len);
         void init();
