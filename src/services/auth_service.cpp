@@ -5,7 +5,7 @@ Auth_Service::Auth_Service(IUser_Persistence& persistance)
 
 bool Auth_Service::is_registered(std::vector<uint8_t> uid) {
     User u = m_persistance.read_user(uid);
-    return &u != nullptr;
+    return u.uid.size() != 0;
 };
 
 User Auth_Service::get_user(std::vector<uint8_t> uid) {
