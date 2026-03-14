@@ -27,7 +27,7 @@
 #define RFID_SPI_RST_PIN 0
 #define RFID_SPI_SS_PIN 5
 
-#define MAX_NAME_LEN 10
+#define MAX_NAME_LEN 8
 
 Display_I2C lcd(LCD_COLS, LCD_ROWS, LCD_I2C_Addr);
 Push_Button_Input input(BTN_UP_PIN, BTN_MIDDLE_PIN, BTN_DOWN_PIN);
