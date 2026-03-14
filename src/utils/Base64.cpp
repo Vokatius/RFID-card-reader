@@ -104,8 +104,8 @@ namespace Base64 {
         // Serial.println("Starting temp calc");
         String result = "";
         uint32_t group = bytes[0] << 16 | bytes[1] << 8 | bytes[2];
-        Serial.print("uint32_t to base64: ");
-        Serial.println(group);
+        // Serial.print("uint32_t to base64: ");
+        // Serial.println(group);
 
         // Serial.println("Starting loop");
         uint8_t tempVal;
