@@ -30,4 +30,18 @@ namespace ui_helpers {
 
         return input;
     }
+
+    bool try_block_get_uid(Push_Button_Input& input, IRfid_Reader& reader, std::vector<uint8_t>& out_uid) {
+        Buttons inp = NONE;
+        while (inp == NONE && out_uid.size() == 0)
+        {
+            inp = input.get_button();
+            reader.try_get_auth(&out_uid);
+        }
+
+        if(inp != NONE ||out_uid.size() == 0)
+            return false;
+
+        return true;
+    }
 }

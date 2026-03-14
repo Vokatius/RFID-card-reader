@@ -79,11 +79,8 @@ void D1602_Button_IO::find_user_menu() {
     m_display.write(0,1, "Press to abort");
 
     std::vector<uint8_t> uid = {};
-    Buttons inp = NONE;
-    while (inp == NONE && uid.size() == 0)
-    {
-        inp = m_buttons.get_button();
-        m_reader.try_get_auth(&uid);
+    if(!ui_helpers::try_block_get_uid(m_buttons, m_reader, uid)) {
+        return;
     }
 
     if(!m_auth.is_registered(uid)) {
@@ -107,15 +104,9 @@ void D1602_Button_IO::register_user_menu() {
     m_display.write(0,1, "Press to abort");
 
     std::vector<uint8_t> uid = {};
-    Buttons inp = NONE;
-    while (inp == NONE && uid.size() == 0)
-    {
-        inp = m_buttons.get_button();
-        m_reader.try_get_auth(&uid);
-    }
-
-    if(inp != NONE ||uid.size() == 0)
+    if(!ui_helpers::try_block_get_uid(m_buttons, m_reader, uid)) {
         return;
+    }
     
     if(m_auth.is_registered(uid)) {
         m_display.write(0,0, "Chip blocked");
@@ -149,11 +140,8 @@ void D1602_Button_IO::delete_user_menu() {
     m_display.write(0,1, "Press to abort");
 
     std::vector<uint8_t> uid = {};
-    Buttons inp = NONE;
-    while (inp == NONE && uid.size() == 0)
-    {
-        inp = m_buttons.get_button();
-        m_reader.try_get_auth(&uid);
+    if(!ui_helpers::try_block_get_uid(m_buttons, m_reader, uid)) {
+        return;
     }
 
     if(!m_auth.is_registered(uid)) {
@@ -215,11 +203,8 @@ void D1602_Button_IO::change_user_name_menu() {
     m_display.write(0,1, "Press to abort");
 
     std::vector<uint8_t> uid = {};
-    Buttons inp = NONE;
-    while (inp == NONE && uid.size() == 0)
-    {
-        inp = m_buttons.get_button();
-        m_reader.try_get_auth(&uid);
+    if(!ui_helpers::try_block_get_uid(m_buttons, m_reader, uid)) {
+        return;
     }
 
     if(!m_auth.is_registered(uid)) {
@@ -253,15 +238,9 @@ void D1602_Button_IO::change_user_chip_menu() {
     m_display.write(0,1, "Press to abort");
 
     std::vector<uint8_t> old_uid = {};
-    Buttons inp = NONE;
-    while (inp == NONE && old_uid.size() == 0)
-    {
-        inp = m_buttons.get_button();
-        m_reader.try_get_auth(&old_uid);
-    }
-
-    if(inp != NONE ||old_uid.size() == 0)
+    if(!ui_helpers::try_block_get_uid(m_buttons, m_reader, old_uid)) {
         return;
+    }
 
     if(!m_auth.is_registered(old_uid)) {
         m_display.write(0,0, "Chip not found");
@@ -274,15 +253,9 @@ void D1602_Button_IO::change_user_chip_menu() {
     m_display.write(0,1, "Press to abort");
 
     std::vector<uint8_t> new_uid = {};
-    inp = NONE;
-    while (inp == NONE && new_uid.size() == 0)
-    {
-        inp = m_buttons.get_button();
-        m_reader.try_get_auth(&new_uid);
-    }
-
-    if(inp != NONE ||new_uid.size() == 0)
+    if(!ui_helpers::try_block_get_uid(m_buttons, m_reader, new_uid)) {
         return;
+    }
 
     if(m_auth.is_registered(new_uid)) {
         m_display.write(0,0, "Chip blocked");
