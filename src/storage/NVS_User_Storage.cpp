@@ -60,8 +60,8 @@ User NVS_User_Storage::read_user(vector<uint8_t> uid) {
 
     auto size = size_t(m_max_name_length);
     auto err = nvs_get_str(handle, Base64::toBase64(uid).c_str(), &name[0], &size); // &name[0] -> Passes pointer to first char of name
-    if(err == ESP_ERR_NOT_FOUND)
-        return {};
+    if(err == ESP_ERR_NVS_NOT_FOUND)
+        return User{"Null", {}};
 
     if(err != ESP_OK) {
         //TODO: Error handling
