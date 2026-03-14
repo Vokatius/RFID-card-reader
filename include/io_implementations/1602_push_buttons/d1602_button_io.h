@@ -11,7 +11,6 @@ class D1602_Button_IO : public IO_Service_Base {
         Display_I2C& m_display;
         Push_Button_Input& m_buttons;
         void show_main_menu();
-        void authenticate_user_menu();
         void find_user_menu();
         void register_user_menu();
         void change_user_menu();
