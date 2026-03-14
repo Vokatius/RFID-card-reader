@@ -120,6 +120,7 @@ void input_menu::sanitize_input(bool append_spaces) {
 }
 
 exit_state input_menu::open_editor(const char* start_text) {
+    m_input_text = start_text;
     m_lower_output = MENU_TEXT;
 
     while (true) {        
