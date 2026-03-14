@@ -1,7 +1,7 @@
 #include "hardware/input/Push_Button_Input.h"
 #include <Arduino.h>
 
-#define BTN_HOLD_DURATION 450
+#define BTN_HOLD_DURATION 750
 
 Push_Button_Input::Push_Button_Input(uint8_t upBtn, uint8_t middleBtn, uint8_t downBtn)
 : m_buttons({ upBtn, middleBtn, downBtn}) { };
